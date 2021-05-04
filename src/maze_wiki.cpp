@@ -9,8 +9,8 @@
 #define LEFT 2   //-x
 #define RIGHT 3  //+x
 #define OUTFILE "MAZE"
-#define WHITE fprintf(outfile, "%c%c%c", 255,255,255)
-#define BLACK fprintf(outfile, "%c%c%c", 0,0,0)
+#define WHITE fprintf(outfile, "%c%c%c", 75,0,0)
+#define BLACK fprintf(outfile, "%c%c%c", 255,50,50)
 #define RED   fprintf(outfile, "%c%c%c", 0,0,255)
 
 #define nodeadend//generate a maze without any dead ends! (consequently, many solutions to maze)
@@ -19,8 +19,8 @@
 //#define movie   //this option spams bitmaps to illustrate each step of generation.
 
 long numin=1;     //Number of cells in the maze.
-const int xsize=152;
-const int ysize=122;
+const int xsize=10;
+const int ysize=10;
 
 void initialize();
 void generate();
@@ -118,15 +118,15 @@ void generate(){
 				xcur=xcur2;
 		}
 #endif
-#ifdef prim
-		do{
-			//randomly find a cell that's in the maze
-			xcur=rand()%(xsize-2)+1;
-			ycur=rand()%(ysize-2)+1;
-		}while(!MAZE[xcur][ycur].in ||
-			MAZE[xcur][ycur-1].in&&MAZE[xcur][ycur+1].in&&
-			MAZE[xcur-1][ycur].in&&MAZE[xcur+1][ycur].in);
-#endif
+// #ifdef prim
+// 		do{
+// 			//randomly find a cell that's in the maze
+// 			xcur=rand()%(xsize-2)+1;
+// 			ycur=rand()%(ysize-2)+1;
+// 		}while(!MAZE[xcur][ycur].in ||
+// 			MAZE[xcur][ycur-1].in&&MAZE[xcur][ycur+1].in&&
+// 			MAZE[xcur-1][ycur].in&&MAZE[xcur+1][ycur].in);
+// #endif
 		do{
 			//Randomly grow the maze if possible.
 			success=0;
