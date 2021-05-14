@@ -1,57 +1,18 @@
-//Purpy Pupple's amazing maze generator.
-//Released under the CC-BY-SA 3.0 License and the GFDL
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#include "../include/Maze.h"
 
-#define UP 0     //-y
-#define DOWN 1   //+y
-#define LEFT 2   //-x
-#define RIGHT 3  //+x
-#define OUTFILE "MAZE"
-#define WHITE fprintf(outfile, "%c%c%c", 75,0,0)
-#define BLACK fprintf(outfile, "%c%c%c", 255,50,50)
-#define RED   fprintf(outfile, "%c%c%c", 0,0,255)
+using namespace std;
 
-#define nodeadend//generate a maze without any dead ends! (consequently, many solutions to maze)
-//#define prim    //enable this to generate mazes using prim's algorithm.
-#define backtrack//enable this to generate mazes using depth-first search. Don't enable both.
-//#define movie   //this option spams bitmaps to illustrate each step of generation.
-
-long numin=1;     //Number of cells in the maze.
-const int xsize=10;
-const int ysize=10;
-
-void initialize();
-void generate();
-void savebmp(int xspecial, int yspecial);
-
-struct cell{
-	bool in;  //Is this cell in the maze?
-	bool up;  //Does the wall above this cell exist?
-	bool left;//Does the wall to the left of this cell exist?
-	int prevx, prevy; //The coordinates of the previous cell, used for backtracking.
-};
-
-cell MAZE[xsize][ysize];
-
-int main(){
-	srand((unsigned int)time(NULL)); //seed random number generator with system time
-	initialize();      //initialize the maze
-	generate();        //generate the maze
-#ifdef movie
-	for(int i=1;i<10;i++){
-		numin++;
-		savebmp(0,0);      //output the bitmap
-	}
-#else
-	savebmp(0,0);
-#endif
-	return 0;
+Maze::Maze(long n, int x, int y){
+  numin = n;
+  xsize = x;
+  ysize = y;
+  MAZE= new cell*[x];
+  for(int i=0;i<x;i++){
+    MAZE[i]=new cell[y];
+  }
 }
-
-void initialize(){
-	//Initialize the maze!
+void Maze::initialize(){
+  //Initialize the maze!
 	for(int x=0;x<xsize;x++){
 		for(int y=0;y<ysize;y++){
 			//The maze cells on the edges of the maze are "in" to provide padding. Otherwise, all maze cells are not in.
@@ -64,15 +25,12 @@ void initialize(){
 	return;
 }
 
-void generate(){
-	int xcur=1, ycur=1;//start growing from the corner. It could theoretically start growing from anywhere, doesn't matter.
+void Maze::generate(){
+  int xcur=1, ycur=1;//start growing from the corner. It could theoretically start growing from anywhere, doesn't matter.
 	MAZE[xcur][ycur].in = 1;
 	int whichway;
 	bool success;
 	do{
-#ifdef movie
-		savebmp(xcur,ycur);
-#endif
 #ifdef nodeadend
 		if( MAZE[xcur][ycur-1].in&&MAZE[xcur][ycur+1].in&&
 			   MAZE[xcur-1][ycur].in&&MAZE[xcur+1][ycur].in ){
@@ -118,15 +76,6 @@ void generate(){
 				xcur=xcur2;
 		}
 #endif
-// #ifdef prim
-// 		do{
-// 			//randomly find a cell that's in the maze
-// 			xcur=rand()%(xsize-2)+1;
-// 			ycur=rand()%(ysize-2)+1;
-// 		}while(!MAZE[xcur][ycur].in ||
-// 			MAZE[xcur][ycur-1].in&&MAZE[xcur][ycur+1].in&&
-// 			MAZE[xcur-1][ycur].in&&MAZE[xcur+1][ycur].in);
-// #endif
 		do{
 			//Randomly grow the maze if possible.
 			success=0;
@@ -173,14 +122,11 @@ void generate(){
 		MAZE[xcur][ycur].in=1;
 		numin++; //Every iteration of this loop, one maze cell is added to the maze.
 	}while(numin<(xsize-2)*(ysize-2));
-#ifdef movie
-	savebmp(xcur,ycur);
-#endif
 	return;
 }
 
-void savebmp(int xspecial, int yspecial){
-	//save a bitmap file! the xspecial, yspecial pixel is coloured red.
+void Maze::savebmp(int xspecial, int yspecial){
+  //save a bitmap file! the xspecial, yspecial pixel is coloured red.
 	FILE * outfile;
 	int extrabytes;
 	unsigned int paddedsize;
@@ -241,5 +187,13 @@ void savebmp(int xspecial, int yspecial){
 	}
 	printf("file printed: %s\n", filename);
 	fclose(outfile);
+	return;
+}
+
+void Maze::create(){
+  srand((unsigned int)time(NULL)); //seed random number generator with system time
+	initialize();      //initialize the maze
+	generate();        //generate the maze
+	savebmp(0,0);
 	return;
 }
