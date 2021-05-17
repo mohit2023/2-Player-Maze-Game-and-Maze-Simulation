@@ -1,4 +1,5 @@
 #include "../include/Game.h"
+#include "../include/TextureManager.h"
 
 using namespace std;
 SDL_Texture* playerTex;
@@ -22,7 +23,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if(renderer){
-      SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+      SDL_SetRenderDrawColor(renderer, 238, 232, 125, 255);
       cout<<"Renderer created"<<endl;
     }
     isRunning = true;
@@ -31,9 +32,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     isRunning = false;
   }
 
-  SDL_Surface* tmpSurface = SDL_LoadBMP("MAZE_10x10_n64.bmp");
-  playerTex = SDL_CreateTextureFromSurface(renderer, tmpSurface);
-  SDL_FreeSurface(tmpSurface);
+  // SDL_Surface* tmpSurface = SDL_LoadBMP("MAZE_10x10_n64.bmp");
+  playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
+  // SDL_FreeSurface(tmpSurface);
 }
 void Game::handleEvents(){
   SDL_Event event;
