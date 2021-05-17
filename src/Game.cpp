@@ -1,9 +1,9 @@
 #include "../include/Game.h"
 #include "../include/TextureManager.h"
+#include "../include/GameObject.h"
 
 using namespace std;
-SDL_Texture* playerTex;
-SDL_Rect srcR, destR;
+GameObject* player;
 
 Game::Game(){}
 Game::~Game(){}
@@ -33,7 +33,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   }
 
   // SDL_Surface* tmpSurface = SDL_LoadBMP("MAZE_10x10_n64.bmp");
-  playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
+  // playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
+  player = new GameObject("MAZE_10x10_n64.bmp",renderer,0,0);
   // SDL_FreeSurface(tmpSurface);
 }
 void Game::handleEvents(){
@@ -48,17 +49,14 @@ void Game::handleEvents(){
   }
 }
 void Game::update(){
-  cnt++;
-  destR.h = 500;
-  destR.w = 500;
-  destR.x = 150;
-  destR.y = 50;
+  player->Update();
   // cout<<cnt<<endl;
 }
 void Game::render(){
   SDL_RenderClear(renderer);
   // Add stuff to renderer
-  SDL_RenderCopy(renderer,playerTex, NULL, &destR);
+  // SDL_RenderCopy(renderer,playerTex, NULL, &destR);
+  player->Render();
   SDL_RenderPresent(renderer);
 }
 void Game::clean(){
