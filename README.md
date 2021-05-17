@@ -13,3 +13,10 @@
 - Called every time the game is booted or restarted.
 ### Resources
 - [Maze Generation Using Backtracking](https://en.wikipedia.org/wiki/User:Dllu/Maze)
+
+### Installing SDL2 packages on Ubuntu
+```shell
+sudo apt-get install libsdl2-2.0
+sudo apt-get install libsdl2-dev
+sudo apt-get install libsdl2-image-dev
+```
