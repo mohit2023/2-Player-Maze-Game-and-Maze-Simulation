@@ -1,9 +1,17 @@
 #include "../include/Game.h"
 #include "../include/TextureManager.h"
 #include "../include/GameObject.h"
+#include "../include/ECS.h"
+#include "../include/Components.h"
 
 using namespace std;
-GameObject* player;
+GameObject* player1;
+GameObject* player2;
+
+SDL_Renderer* Game::renderer = nullptr;
+
+Manager manager;
+auto& newPlayer(manager.addEntity());
 
 Game::Game(){}
 Game::~Game(){}
@@ -34,7 +42,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
 
   // SDL_Surface* tmpSurface = SDL_LoadBMP("MAZE_10x10_n64.bmp");
   // playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
-  player = new GameObject("MAZE_10x10_n64.bmp",renderer,0,0);
+  player1 = new GameObject("assets/Clyde.bmp",0,0);
+  player2 = new GameObject("assets/Pinky.bmp",30,30);
+  newPlayer.addComponent<PositionComponent>();
+  newPlayer.getComponent<PositionComponent>().setPos(500,500);
+  // newPlayer.getComponent<PositionComponent>();
   // SDL_FreeSurface(tmpSurface);
 }
 void Game::handleEvents(){
@@ -49,14 +61,18 @@ void Game::handleEvents(){
   }
 }
 void Game::update(){
-  player->Update();
+  player1->Update();
+  player2->Update();
+  manager.update();
+  cout<<newPlayer.getComponent<PositionComponent>().x()<<","<<newPlayer.getComponent<PositionComponent>().y()<< endl;
   // cout<<cnt<<endl;
 }
 void Game::render(){
   SDL_RenderClear(renderer);
   // Add stuff to renderer
   // SDL_RenderCopy(renderer,playerTex, NULL, &destR);
-  player->Render();
+  player1->Render();
+  player2->Render();
   SDL_RenderPresent(renderer);
 }
 void Game::clean(){
