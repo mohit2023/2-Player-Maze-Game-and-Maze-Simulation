@@ -2,6 +2,7 @@
 #include "../include/TextureManager.h"
 #include "../include/Components.h"
 #include "../include/Map.h"
+#include "../include/Vector2D.h"
 
 using namespace std;
 
@@ -43,7 +44,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   // playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
   // player1 = new GameObject("assets/Clyde.bmp",0,0);
   // player2 = new GameObject("assets/Pinky.bmp",30,30);
-  player.addComponent<PositionComponent>(150,50);
+  player.addComponent<TransformComponent>(150.0,50.0);
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
   // newPlayer.getComponent<PositionComponent>();
   // SDL_FreeSurface(tmpSurface);
@@ -64,9 +65,10 @@ void Game::update(){
   // player2->Update();
   manager.refresh();
   manager.update();
+  player.getComponent<TransformComponent>().position.Add(Vector2D(1,0));
   // cout<<newPlayer.getComponent<PositionComponent>().x()<<","<<newPlayer.getComponent<PositionComponent>().y()<< endl;
   // cout<<cnt<<endl;
-  if(player.getComponent<PositionComponent>().x() > 200){
+  if(player.getComponent<TransformComponent>().position.x > 200){
     player.getComponent<SpriteComponent>().setTex("assets/Pinky.bmp");
   }
 }
