@@ -27,7 +27,7 @@ public:
   void initialize();
   void generate();
   void savebmp(int xspecial,int yspecial);
-  void create();
+  cell** create();
 private:
   long numin;
   int xsize;

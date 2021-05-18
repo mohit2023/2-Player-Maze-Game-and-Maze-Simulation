@@ -9,6 +9,7 @@ using namespace std;
 
 SDL_Renderer* Game::renderer = nullptr;
 SDL_Event Game::event;
+vector<ColliderComponent*> Game::colliders;
 
 Map* map;
 Manager manager;
@@ -47,7 +48,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   // playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
   // player1 = new GameObject("assets/Clyde.bmp",0,0);
   // player2 = new GameObject("assets/Pinky.bmp",30,30);
-  player.addComponent<TransformComponent>(150.0,50.0);
+  player.addComponent<TransformComponent>(25.0,25.0);
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
   player.addComponent<KeyboardController>();
   player.addComponent<ColliderComponent>("player");

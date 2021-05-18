@@ -190,10 +190,10 @@ void Maze::savebmp(int xspecial, int yspecial){
 	return;
 }
 
-void Maze::create(){
+cell** Maze::create(){
   srand((unsigned int)time(NULL)); //seed random number generator with system time
 	initialize();      //initialize the maze
 	generate();        //generate the maze
-	savebmp(0,0);
-	return;
+	// savebmp(0,0);
+	return MAZE;
 }

@@ -3,6 +3,7 @@
 #include <string>
 #include "SDL2/SDL.h"
 #include "ECS.h"
+#include "Components.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ public:
       entity->addComponent<TransformComponent>();
     }
     transform = &entity->getComponent<TransformComponent>();
+    Game::colliders.push_back(this);
   }
   void update() override{
     collider.x = static_cast<int>(transform->position.x);

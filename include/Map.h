@@ -2,6 +2,7 @@
 
 #include "Game.h"
 #include "TextureManager.h"
+#include "Maze.h"
 
 class Map{
 public:
@@ -12,5 +13,7 @@ public:
 private:
   SDL_Rect src, dest;
   SDL_Texture* maze;
-  int **map;
+  SDL_Texture* white;
+  SDL_Texture* black;
+  int map[17][17];
 };
