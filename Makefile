@@ -1,7 +1,7 @@
 SDL = `pkg-config --cflags --libs sdl2`
 IMG = -lSDL2_image
-builddeps = Maze.o TextureManager.o GameObject.o Game.o main.o
-buildobjs = bin/Maze.o bin/TextureManager.o bin/GameObject.o bin/Game.o bin/main.o
+builddeps = Maze.o TextureManager.o Map.o GameObject.o Game.o main.o
+buildobjs = bin/Maze.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/Game.o bin/main.o
 all: $(builddeps)
 	g++ -o run $(buildobjs) $(SDL) $(IMG)
 
@@ -14,6 +14,9 @@ Game.o: src/Maze.cpp
 TextureManager.o: src/TextureManager.cpp
 	g++ -c src/TextureManager.cpp $(SDL) $(IMG)
 	mv TextureManager.o bin/TextureManager.o
+Map.o: src/Map.cpp
+	g++ -c src/Map.cpp $(SDL) $(IMG)
+	mv Map.o bin/Map.o
 GameObject.o: src/GameObject.cpp
 	g++ -c src/GameObject.cpp $(SDL) $(IMG)
 	mv GameObject.o bin/GameObject.o
