@@ -9,7 +9,6 @@ public:
   Map();
   ~Map();
   void LoadMap();
-  void DrawMap();
 private:
   SDL_Rect src, dest;
   SDL_Texture* maze;

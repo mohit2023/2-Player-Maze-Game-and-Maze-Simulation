@@ -16,6 +16,9 @@ Manager manager;
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
+// auto& tile0(manager.addEntity());
+// auto& tile1(manager.addEntity());
+
 Game::Game(){}
 Game::~Game(){}
 
@@ -48,14 +51,15 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   // playerTex = TextureManager::LoadTexture("MAZE_10x10_n64.bmp",renderer);
   // player1 = new GameObject("assets/Clyde.bmp",0,0);
   // player2 = new GameObject("assets/Pinky.bmp",30,30);
+  // tile0.addComponent<TileComponent>(200,200,25,25,0);
+  // tile1.addComponent<TileComponent>(250,250,25,25,1);
+  // AddTile(0,200,200);
   player.addComponent<TransformComponent>(25.0,25.0);
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
   player.addComponent<KeyboardController>();
   player.addComponent<ColliderComponent>("player");
-  // newPlayer.getComponent<PositionComponent>();
   wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1);
   wall.addComponent<ColliderComponent>("wall");
-  // SDL_FreeSurface(tmpSurface);
 }
 void Game::handleEvents(){
   SDL_PollEvent(&event);
@@ -68,8 +72,6 @@ void Game::handleEvents(){
   }
 }
 void Game::update(){
-  // player1->Update();
-  // player2->Update();
   manager.refresh();
   manager.update();
 
@@ -81,10 +83,7 @@ void Game::update(){
 void Game::render(){
   SDL_RenderClear(renderer);
   // Add stuff to renderer
-  map->DrawMap();
-  // SDL_RenderCopy(renderer,playerTex, NULL, &destR);
-  // player1->Render();
-  // player2->Render();
+  // map->DrawMap();
   manager.draw();
   SDL_RenderPresent(renderer);
 }
@@ -93,4 +92,8 @@ void Game::clean(){
   SDL_DestroyRenderer(renderer);
   SDL_Quit();
   cout<<"Game Cleaned"<<endl;
+}
+void Game::AddTile(int id, int x, int y){
+  auto& tile(manager.addEntity());
+  tile.addComponent<TileComponent>(x,y,25,25,id);
 }
