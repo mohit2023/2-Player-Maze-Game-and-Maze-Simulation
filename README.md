@@ -14,6 +14,7 @@
 ### Resources
 - [Maze Generation Using Backtracking](https://en.wikipedia.org/wiki/User:Dllu/Maze)
 - [SDL Functions](http://wiki.libsdl.org/)
+- [Player Sprites](https://github.com/DarkMuffinJoe/Pacman/tree/master/Pacman/Resources)
 
 ### Installing SDL2 packages on Ubuntu
 ```shell
