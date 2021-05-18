@@ -6,16 +6,34 @@
 class TransformComponent : public Component{
 public:
   Vector2D position;
+  Vector2D velocity;
+
+  int height = 25;
+  int width = 25;
+  int scale = 1;
+
+  int speed = 3;
   TransformComponent(){
-    position.x = 0.0f;
-    position.y = 0.0f;
+    position.Zero();
   }
   TransformComponent(float x, float y){
     position.x = x;
     position.y = y;
   }
+  TransformComponent(float x, float y, int w, int h, int sc){
+    position.x = x;
+    position.y = y;
+    height = h;
+    width = w;
+    scale = sc;
+  }
+
+  void init() override{
+    velocity.Zero();
+  }
   void update() override{
-    // xpos++;
+    position.x += velocity.x*speed;
+    position.y += velocity.y*speed;
     // ypos++;
   }
 

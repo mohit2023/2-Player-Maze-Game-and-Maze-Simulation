@@ -3,14 +3,17 @@
 #include "../include/Components.h"
 #include "../include/Map.h"
 #include "../include/Vector2D.h"
+#include "../include/Collision.h"
 
 using namespace std;
 
 SDL_Renderer* Game::renderer = nullptr;
+SDL_Event Game::event;
 
 Map* map;
 Manager manager;
 auto& player(manager.addEntity());
+auto& wall(manager.addEntity());
 
 Game::Game(){}
 Game::~Game(){}
@@ -46,11 +49,14 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   // player2 = new GameObject("assets/Pinky.bmp",30,30);
   player.addComponent<TransformComponent>(150.0,50.0);
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
+  player.addComponent<KeyboardController>();
+  player.addComponent<ColliderComponent>("player");
   // newPlayer.getComponent<PositionComponent>();
+  wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1);
+  wall.addComponent<ColliderComponent>("wall");
   // SDL_FreeSurface(tmpSurface);
 }
 void Game::handleEvents(){
-  SDL_Event event;
   SDL_PollEvent(&event);
   switch (event.type) {
     case SDL_QUIT:
@@ -65,11 +71,10 @@ void Game::update(){
   // player2->Update();
   manager.refresh();
   manager.update();
-  player.getComponent<TransformComponent>().position.Add(Vector2D(1,0));
-  // cout<<newPlayer.getComponent<PositionComponent>().x()<<","<<newPlayer.getComponent<PositionComponent>().y()<< endl;
-  // cout<<cnt<<endl;
-  if(player.getComponent<TransformComponent>().position.x > 200){
-    player.getComponent<SpriteComponent>().setTex("assets/Pinky.bmp");
+
+  if(Collision::AABB(player.getComponent<ColliderComponent>().collider,wall.getComponent<ColliderComponent>().collider)){
+    player.getComponent<TransformComponent>().velocity * -1;
+    cout<<"Hit!"<<endl;
   }
 }
 void Game::render(){

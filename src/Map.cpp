@@ -10,7 +10,9 @@ Map::Map(){
   LoadMap();
 }
 
-Map::~Map(){}
+Map::~Map(){
+  SDL_DestroyTexture(maze);
+}
 
 void Map::LoadMap(){
   maze = TextureManager::LoadTexture("MAZE_10x10_n64.bmp");
