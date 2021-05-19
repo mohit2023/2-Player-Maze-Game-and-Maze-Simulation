@@ -16,8 +16,11 @@ Manager manager;
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
-// auto& tile0(manager.addEntity());
-// auto& tile1(manager.addEntity());
+enum groubLabels : size_t{
+  groupMap,
+  groupPlayers,
+  groupColliders
+};
 
 Game::Game(){}
 Game::~Game(){}
@@ -58,8 +61,11 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
   player.addComponent<KeyboardController>();
   player.addComponent<ColliderComponent>("player");
+  player.addGroup(groupPlayers);
+
   wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1);
   wall.addComponent<ColliderComponent>("wall");
+  wall.addGroup(groupMap);
 }
 void Game::handleEvents(){
   SDL_PollEvent(&event);
@@ -80,11 +86,21 @@ void Game::update(){
     cout<<"Hit!"<<endl;
   }
 }
+
+auto& tiles(manager.getGroup(groupMap));
+auto& players(manager.getGroup(groupPlayers));
+
 void Game::render(){
   SDL_RenderClear(renderer);
   // Add stuff to renderer
   // map->DrawMap();
-  manager.draw();
+  // manager.draw();
+  for (auto& t : tiles){
+    t->draw();
+  }
+  for (auto& p : players){
+    p->draw();
+  }
   SDL_RenderPresent(renderer);
 }
 void Game::clean(){
@@ -96,4 +112,5 @@ void Game::clean(){
 void Game::AddTile(int id, int x, int y){
   auto& tile(manager.addEntity());
   tile.addComponent<TileComponent>(x,y,25,25,id);
+  tile.addGroup(groupMap);
 }

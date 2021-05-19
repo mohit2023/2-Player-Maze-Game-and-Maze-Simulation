@@ -1,7 +1,7 @@
 SDL = `pkg-config --cflags --libs sdl2`
 IMG = -lSDL2_image
-builddeps = Maze.o Collision.o Vector2D.o TextureManager.o Map.o GameObject.o Game.o main.o
-buildobjs = bin/Maze.o bin/Collision.o bin/Vector2D.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/Game.o bin/main.o
+builddeps = Maze.o Collision.o ECS.o Vector2D.o TextureManager.o Map.o GameObject.o Game.o main.o
+buildobjs = bin/Maze.o bin/Collision.o bin/ECS.o bin/Vector2D.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/Game.o bin/main.o
 all: $(builddeps)
 	g++ -o run $(buildobjs) $(SDL) $(IMG)
 
@@ -26,6 +26,9 @@ GameObject.o: src/GameObject.cpp
 Collision.o: src/Collision.cpp
 	g++ -c src/Collision.cpp $(SDL) $(IMG)
 	mv Collision.o bin/Collision.o
+ECS.o: src/ECS.cpp
+	g++ -c src/ECS.cpp $(SDL) $(IMG)
+	mv ECS.o bin/ECS.o
 main.o: src/main.cpp
 	g++ -c src/main.cpp $(SDL) $(IMG)
 	mv main.o bin/main.o
