@@ -31,7 +31,7 @@ public:
   void initialize();
   void generate();
   void savebmp(int xspecial,int yspecial);
-  void create();
+  cell** create();
   vector<vector<vector<int>>> mazeToMap();
 private:
   long numin;
