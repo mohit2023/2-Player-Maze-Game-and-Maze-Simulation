@@ -68,10 +68,10 @@ void Map::drawMaze(){
 				SDL_SetRenderDrawColor(Game::renderer,106,90,205,255); //slate-blue
 			}
 			else if(MazeMap[i][j][0]==1){
-				SDL_SetRenderDrawColor(Game::renderer,255,165,0,30);	//orange
+				SDL_SetRenderDrawColor(Game::renderer,155,65,0,30);	//orange
 			}
 			else{
-				SDL_SetRenderDrawColor(Game::renderer,255,182,193,30); //light blue
+				SDL_SetRenderDrawColor(Game::renderer,155,82,93,30); //light blue
 			}
 			SDL_Rect r;
 			r.x=x;

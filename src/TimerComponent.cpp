@@ -23,6 +23,7 @@ void TimerComponent::Render(){
 	stringstream time;
 	time<<"Time remaining:  ";
 	time<<timerValue;
+	time<<"  seconds";
 	TTF_Font* font = TTF_OpenFont("assets/Sans.ttf",26);
 	if(!font) {
 		cout<<TTF_GetError();
