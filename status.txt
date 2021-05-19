@@ -1,0 +1,2 @@
+Adding sockets to our implementation required us to make many changes to GameObject.cpp, Game.cpp and main.cpp which was causing a lot of errors.
+Hence, we implenment 2-Player controls using just two different sets of keys for input.
