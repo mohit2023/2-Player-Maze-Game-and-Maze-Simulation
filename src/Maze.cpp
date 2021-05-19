@@ -1,5 +1,4 @@
 #include "../include/Maze.h"
-
 using namespace std;
 
 Maze::Maze(long n, int x, int y){
@@ -197,3 +196,24 @@ void Maze::create(){
 	savebmp(0,0);
 	return;
 }
+
+
+vector<vector<vector<int>>> Maze::mazeToMap(){
+	vector<vector<vector<int>>> MazeMap(xsize,vector<vector<int>>(ysize,vector<int>(3)));
+	for(int i=0;i<xsize;i++){
+		for(int j=0;j<ysize;j++){
+			MazeMap[i][j][1]=MAZE[i][j].up;
+			MazeMap[i][j][2]=MAZE[i][j].left;
+			MazeMap[i][j][0]=0;
+		}
+	}
+	for(int i=0;i<xsize;i++){
+		MazeMap[i][0][2]=1;
+	}
+	for(int j=0;j<ysize;j++){
+		MazeMap[0][j][1]=1;
+	}
+	return MazeMap;
+}
+
+

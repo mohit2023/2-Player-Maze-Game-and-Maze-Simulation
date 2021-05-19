@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 #define UP 0     //-y
 #define DOWN 1   //+y
@@ -28,6 +32,7 @@ public:
   void generate();
   void savebmp(int xspecial,int yspecial);
   void create();
+  vector<vector<vector<int>>> mazeToMap();
 private:
   long numin;
   int xsize;

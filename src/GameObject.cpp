@@ -7,9 +7,90 @@ GameObject::GameObject(const char* texturesheet, int x, int y){
   xpos = x;
   ypos = y;
 }
-void GameObject::Update(){
-  xpos++;
-  ypos++;
+bool noMazeCollison(int nx,int ny,vector<vector<vector<int>>>& MazeMap){
+	int j1=(nx-200)/40;
+	int i1=(ny-100)/40;
+	int i2=(ny-100+25-1)/40;
+	int j2=(nx-200+25-1)/40;
+	if(MazeMap[i1][j1][1]){
+		if(ny<=100+i1*40+1){
+			return false;
+		}
+	}
+	if(MazeMap[i1][j1][2]){
+		if(nx<=200+j1*40+1){
+			return false;
+		}
+	}
+	if(i1+1>=10 || (i1+1<10 && MazeMap[i1+1][j1][1])){
+		if(ny+25>100+(i1+1)*40){
+			return false;
+		}
+	}
+	if(j1+1>=10 || (j1+1<10 && MazeMap[i1][j1+1][2])){
+		if(nx+25>200+(j1+1)*40){
+			return false;
+		}
+	}
+	
+	if(MazeMap[i2][j1][2]){
+		if(nx<=200+j1*40+1){
+			return false;
+		}
+	}
+	if(j1+1>=10 || (j1+1<10 && MazeMap[i2][j1+1][2])){
+		if(nx+25>200+(j1+1)*40){
+			return false;
+		}
+	}
+	
+	if(MazeMap[i1][j2][1]){
+		if(ny<=100+i1*40+1){
+			return false;
+		}
+	}
+	if(i1+1>=10 || (i1+1<10 && MazeMap[i1+1][j2][1])){
+		if(ny+25>100+(i1+1)*40){
+			return false;
+		}
+	}
+	
+	return true;
+}
+void GameObject::Update(vector<vector<vector<int>>>& MazeMap,int color){
+  int nxpos=xpos,nypos=ypos;
+  switch(move){
+    case MOVE_UP:
+    	nypos=ypos-1;
+    	break;
+    case MOVE_RIGHT:
+    	nxpos=xpos+1;
+    	break;
+    case MOVE_DOWN:
+    	nypos=ypos+1;
+    	break;
+    case MOVE_LEFT:
+    	nxpos=xpos-1;
+    	break;
+    default:
+    	break;
+  }
+  
+  bool ispossible = noMazeCollison(nxpos,nypos,MazeMap);
+  if(ispossible){
+  	xpos=nxpos;
+  	ypos=nypos;
+  	int i1=(ypos-100)/40;
+  	int i2=(ypos-100+25)/40;
+  	int j1=(xpos-200)/40;
+  	int j2=(xpos-200+25)/40;
+  	if(i1==i2 && j1==j2){
+  		MazeMap[i1][j1][0]=color;
+  	}
+  }
+  else{
+  	move=NO_CHANGE;
+  }
 
   srcRect.h = 25;
   srcRect.w = 25;
