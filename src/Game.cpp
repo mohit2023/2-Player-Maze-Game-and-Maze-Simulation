@@ -4,6 +4,8 @@
 #include "../include/Map.h"
 #include "../include/Vector2D.h"
 #include "../include/GameObject.h"
+#include "../include/TimerComponent.h"
+#include "SDL_ttf.h"
 
 using namespace std;
 
@@ -11,6 +13,8 @@ SDL_Renderer* Game::renderer = nullptr;
 
 GameObject* player1;
 GameObject* player2;
+
+TimerComponent* timer;
 
 //Map* map;
 //Manager manager;
@@ -39,6 +43,9 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
       SDL_SetRenderDrawColor(renderer, 238, 232, 125, 255);
       cout<<"Renderer created"<<endl;
     }
+    if(TTF_Init() == -1) {
+    	cout<<"Some error\n";
+    }
     isRunning = true;
   }
   else{
@@ -54,6 +61,8 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   //player.addComponent<SpriteComponent>("assets/Clyde.bmp");
   // newPlayer.getComponent<PositionComponent>();
   // SDL_FreeSurface(tmpSurface);
+  
+  timer = new TimerComponent(SDL_GetTicks());
 }
 void Game::handleEvents(){
   SDL_Event event;
@@ -67,7 +76,11 @@ void Game::handleEvents(){
 	  break; 
 	default:
 	  break;
-  }	  
+  }
+  
+  if(timer->timeRemaining() <= 0){
+    isRunning = false;
+  }  
 }
 void Game::processInput(SDL_Event event){
 	switch(event.key.keysym.sym){
@@ -144,6 +157,7 @@ void Game::update(){
   //if(player.getComponent<TransformComponent>().position.x > 200){
   //  player.getComponent<SpriteComponent>().setTex("assets/Pinky.bmp");
   //}
+  timer->Update(SDL_GetTicks());
 }
 void Game::drawMaze(){
 	int x=200;
@@ -226,6 +240,7 @@ void Game::drawMaze(){
 void Game::render(){
   SDL_SetRenderDrawColor(renderer, 238, 232, 125, 255);
   SDL_RenderClear(renderer);
+  timer->Render();
   //SDL_RenderPresent(renderer);
   //manager.draw();
   drawMaze();

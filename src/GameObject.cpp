@@ -80,10 +80,10 @@ void GameObject::Update(vector<vector<vector<int>>>& MazeMap,int color){
   if(ispossible){
   	xpos=nxpos;
   	ypos=nypos;
-  	int i1=(ypos-100)/40;
-  	int i2=(ypos-100+25)/40;
-  	int j1=(xpos-200)/40;
-  	int j2=(xpos-200+25)/40;
+  	int i1=(ypos-100+2)/40;
+  	int i2=(ypos-100+25-3)/40;
+  	int j1=(xpos-200+2)/40;
+  	int j2=(xpos-200+25-3)/40;
   	if(i1==i2 && j1==j2){
   		MazeMap[i1][j1][0]=color;
   	}
