@@ -2,6 +2,7 @@
 
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
+#include "SDL2/SDL_mixer.h"
 #include <iostream>
 #include <vector>
 
@@ -23,6 +24,8 @@ public:
   static bool isRunning;
 
   static SDL_Renderer *renderer;
+  static Mix_Chunk* soundeffect;
+  static Mix_Music* bgm;
 private:
   //int cnt = 0;
   bool gameOver;

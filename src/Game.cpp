@@ -20,6 +20,9 @@ ResultComponent* result;
 
 bool Game::isRunning = false;
 
+Mix_Music* Game::bgm = nullptr;
+Mix_Chunk* Game::soundeffect = nullptr;
+
 Game::Game(){
 	isRunning = false;
 	gameOver = true;
@@ -35,6 +38,12 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
     cout<<"Subsystems initialised"<<endl;
 
     window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0){
+			cout<<"Error: "<<Mix_GetError()<<endl;
+		}
+		Game::bgm = Mix_LoadMUS("assets/bgm.mp3");
+		Game::soundeffect = Mix_LoadWAV("assets/col.wav");
+
     if(window){
       cout<<"Window Created"<<endl;
     }
@@ -155,15 +164,19 @@ void resolvePlayerCollision(GameObject* player1,GameObject* player2){
 	if(player2->ypos >= player1->ypos+25){
 		return ;
 	}
-
+	Mix_PlayChannel(-1,Game::soundeffect,0);
 	reversePlayerMove(player1);
 	reversePlayerMove(player2);
 }
 
 void Game::update(){
   if(gameOver){
+		Mix_HaltMusic();
   	return ;
   }
+	if(!Mix_PlayingMusic()){
+		Mix_PlayMusic(Game::bgm,-1);
+	}
   player1->Update(map->MazeMap,1);
   player2->Update(map->MazeMap,2);
   resolvePlayerCollision(player1,player2);
@@ -186,6 +199,9 @@ void Game::render(){
 void Game::clean(){
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
+	Mix_FreeChunk(soundeffect);
+	Mix_FreeMusic(bgm);
+	Mix_Quit();
   SDL_Quit();
   cout<<"Game Cleaned"<<endl;
 }
