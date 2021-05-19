@@ -16,6 +16,8 @@ Manager manager;
 auto& player(manager.addEntity());
 auto& wall(manager.addEntity());
 
+bool Game::isRunning = false;
+
 enum groubLabels : size_t{
   groupMap,
   groupPlayers,
