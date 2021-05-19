@@ -136,6 +136,8 @@ void Game::handleEvents(){
 
   if(timer->timeRemaining() <= 0){
     gameOver=true;
+		Game::soundeffect = Mix_LoadWAV("assets/end.wav");
+		Mix_PlayChannel(-1,Game::soundeffect,0);
     result = new ResultComponent(map->MazeMap);
   }
 }
