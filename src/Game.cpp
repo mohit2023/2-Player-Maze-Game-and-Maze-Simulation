@@ -14,6 +14,7 @@ vector<ColliderComponent*> Game::colliders;
 Map* map;
 Manager manager;
 auto& player(manager.addEntity());
+auto& opponent(manager.addEntity());
 auto& wall(manager.addEntity());
 
 bool Game::isRunning = false;
@@ -61,9 +62,15 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   // AddTile(0,200,200);
   player.addComponent<TransformComponent>(25.0,25.0,24,24,1);
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
-  player.addComponent<KeyboardController>();
+  player.addComponent<KeyboardController>(true);
   player.addComponent<ColliderComponent>("player");
   player.addGroup(Game::groupPlayers);
+
+  opponent.addComponent<TransformComponent>(375.0,375.0,24,24,1);
+  opponent.addComponent<SpriteComponent>("assets/Pinky.bmp");
+  opponent.addComponent<KeyboardController>(false);
+  opponent.addComponent<ColliderComponent>("opponent");
+  opponent.addGroup(Game::groupPlayers);
 
   // wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1);
   // wall.addComponent<ColliderComponent>("wall");
@@ -82,6 +89,8 @@ void Game::handleEvents(){
 void Game::update(){
   SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
   Vector2D playerPos = player.getComponent<TransformComponent>().position;
+  SDL_Rect opponentCol = opponent.getComponent<ColliderComponent>().collider;
+  Vector2D opponentPos = opponent.getComponent<TransformComponent>().position;
   manager.refresh();
   manager.update();
 
@@ -95,6 +104,9 @@ void Game::update(){
       SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
       if(Collision::AABB(cCol,playerCol)){
         player.getComponent<TransformComponent>().position = playerPos;
+      }
+      if(Collision::AABB(cCol,opponentCol)){
+        opponent.getComponent<TransformComponent>().position = opponentPos;
       }
     }
   }
