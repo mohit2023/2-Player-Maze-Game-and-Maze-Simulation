@@ -18,11 +18,11 @@ auto& wall(manager.addEntity());
 
 bool Game::isRunning = false;
 
-enum groubLabels : size_t{
-  groupMap,
-  groupPlayers,
-  groupColliders
-};
+
+
+auto& tiles(manager.getGroup(Game::groupMap));
+auto& players(manager.getGroup(Game::groupPlayers));
+// auto& colliders(manager.getGroup(Game::groupColliders));
 
 Game::Game(){}
 Game::~Game(){}
@@ -59,15 +59,15 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   // tile0.addComponent<TileComponent>(200,200,25,25,0);
   // tile1.addComponent<TileComponent>(250,250,25,25,1);
   // AddTile(0,200,200);
-  player.addComponent<TransformComponent>(25.0,25.0);
+  player.addComponent<TransformComponent>(25.0,25.0,24,24,1);
   player.addComponent<SpriteComponent>("assets/Clyde.bmp");
   player.addComponent<KeyboardController>();
   player.addComponent<ColliderComponent>("player");
-  player.addGroup(groupPlayers);
+  player.addGroup(Game::groupPlayers);
 
-  wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1);
-  wall.addComponent<ColliderComponent>("wall");
-  wall.addGroup(groupMap);
+  // wall.addComponent<TransformComponent>(300.0f,300.0f,300,20,1);
+  // wall.addComponent<ColliderComponent>("wall");
+  // wall.addGroup(groupMap);
 }
 void Game::handleEvents(){
   SDL_PollEvent(&event);
@@ -80,17 +80,26 @@ void Game::handleEvents(){
   }
 }
 void Game::update(){
+  SDL_Rect playerCol = player.getComponent<ColliderComponent>().collider;
+  Vector2D playerPos = player.getComponent<TransformComponent>().position;
   manager.refresh();
   manager.update();
 
-  if(Collision::AABB(player.getComponent<ColliderComponent>().collider,wall.getComponent<ColliderComponent>().collider)){
-    player.getComponent<TransformComponent>().velocity * -1;
-    cout<<"Hit!"<<endl;
+  // if(Collision::AABB(player.getComponent<ColliderComponent>().collider,wall.getComponent<ColliderComponent>().collider)){
+  //   player.getComponent<TransformComponent>().velocity * -1;
+  //   cout<<"Hit!"<<endl;
+  // }
+  for (auto& c : tiles){
+    if (c->getComponent<ColliderComponent>().tag == "wall"){
+      // cout<<"Hit"<<endl;
+      SDL_Rect cCol = c->getComponent<ColliderComponent>().collider;
+      if(Collision::AABB(cCol,playerCol)){
+        player.getComponent<TransformComponent>().position = playerPos;
+      }
+    }
   }
 }
 
-auto& tiles(manager.getGroup(groupMap));
-auto& players(manager.getGroup(groupPlayers));
 
 void Game::render(){
   SDL_RenderClear(renderer);
@@ -114,5 +123,12 @@ void Game::clean(){
 void Game::AddTile(int id, int x, int y){
   auto& tile(manager.addEntity());
   tile.addComponent<TileComponent>(x,y,25,25,id);
-  tile.addGroup(groupMap);
+  if(id == 0){
+    tile.addComponent<ColliderComponent>("path");
+  }
+  else if(id == 1){
+    tile.addComponent<ColliderComponent>("wall");
+  }
+  tile.addGroup(Game::groupMap);
+  // tile.addGroup(Game::groupColliders);
 }

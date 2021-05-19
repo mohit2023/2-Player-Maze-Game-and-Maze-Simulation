@@ -9,7 +9,7 @@ int main(int argc, char* argv[]){
   // Maze maze(1,10,10);
   // maze.create();
 
-  const int FPS = 60;
+  const int FPS = 15;
   const int frameDelay = 1000 / FPS;
 
   Uint32 frameStart;

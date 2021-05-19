@@ -21,6 +21,11 @@ public:
   void clean();
 
   bool running() {return isRunning;}
+  enum groubLabels : size_t{
+    groupMap,
+    groupPlayers,
+    groupColliders
+  };
 
   static void AddTile(int id, int x, int y);
   static SDL_Renderer *renderer;

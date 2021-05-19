@@ -12,7 +12,7 @@ public:
   int width = 25;
   int scale = 1;
 
-  int speed = 3;
+  int speed = 5;
   TransformComponent(){
     position.Zero();
   }
