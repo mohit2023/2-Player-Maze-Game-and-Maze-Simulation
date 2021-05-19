@@ -37,3 +37,6 @@ ResultComponent.o: src/ResultComponent.cpp
 main.o: src/main.cpp
 	g++ -c src/main.cpp $(SDL) $(IMG) $(TTF) $(AUD)
 	mv main.o bin/main.o
+
+clean:
+	rm -rf $(buildobjs)

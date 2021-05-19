@@ -7,17 +7,24 @@
 - There are power pill. The tiles visited by the player within ```x``` seconds of comsuming the power pill are permanently marked by the colour of the player and cannot be changed
 - After ```N``` minutes the game terminates and scores are projected on the screen
 - The player which captures more number of tiles by the end of the game wins.
-## Maze Creation
-### TO-DO:
-- Random Maze creation code
-- Called every time the game is booted or restarted.
+## To Compile:
+``` shell
+$ make
+```
+## To Run:
+``` shell
+$ ./run
+```
 ### Resources
 - [Maze Generation Using Backtracking](https://en.wikipedia.org/wiki/User:Dllu/Maze)
 - [SDL Functions](http://wiki.libsdl.org/)
-- [Player Sprites](https://github.com/DarkMuffinJoe/Pacman/tree/master/Pacman/Resources)
+- [Sprite](https://github.com/DarkMuffinJoe/Pacman/tree/master/Pacman/Resources)
+- [Background Music](https://www.chosic.com/free-music/games/)
+- [Sound Effects](https://github.com/schuay/pacman/tree/master/sound)
+- [SDL tutorial](https://lazyfoo.net/tutorials/SDL/index.php)
 
 ### Installing SDL2 packages on Ubuntu
-```shell
+``` shell
 sudo apt-get install libsdl2-2.0
 sudo apt-get install libsdl2-dev
 sudo apt-get install libsdl2-image-dev
