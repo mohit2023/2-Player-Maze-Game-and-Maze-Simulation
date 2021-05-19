@@ -55,23 +55,23 @@ void Map::LoadMap(){
 void Map::drawMaze(){
 	int width=30;
 	int height=30;
-	
+
 	int x=150;
 	int y=50;
 	for(int i=0;i<17;i++){
 		x=150;
 		for(int j=0;j<17;j++){
 			if(MazeMap[i][j][0]==0){
-				SDL_SetRenderDrawColor(Game::renderer,255,255,255,255); //white
+				SDL_SetRenderDrawColor(Game::renderer,0,0,0,255); //black
 			}
 			else if(MazeMap[i][j][0]==-1){
-				SDL_SetRenderDrawColor(Game::renderer,255,105,42,42); //reddish-brown
+				SDL_SetRenderDrawColor(Game::renderer,106,90,205,255); //slate-blue
 			}
 			else if(MazeMap[i][j][0]==1){
-				SDL_SetRenderDrawColor(Game::renderer,144,238,144,144);	//green
+				SDL_SetRenderDrawColor(Game::renderer,255,165,0,30);	//orange
 			}
 			else{
-				SDL_SetRenderDrawColor(Game::renderer,0,0,255,255); //blue
+				SDL_SetRenderDrawColor(Game::renderer,255,182,193,30); //light blue
 			}
 			SDL_Rect r;
 			r.x=x;

@@ -20,11 +20,11 @@ public:
 
   bool running() {return isRunning;}
   bool isgameOver() {return gameOver;}
+  static bool isRunning;
 
   static SDL_Renderer *renderer;
 private:
   //int cnt = 0;
-  bool isRunning;
   bool gameOver;
   SDL_Window *window;
 };

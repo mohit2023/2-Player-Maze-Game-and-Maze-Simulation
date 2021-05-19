@@ -18,6 +18,8 @@ GameObject* player2;
 TimerComponent* timer;
 ResultComponent* result;
 
+bool Game::isRunning = false;
+
 Game::Game(){
 	isRunning = false;
 	gameOver = true;
@@ -54,7 +56,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   	gameOver = true;
     isRunning = false;
   }
-  
+
   map = new Map();
   player1 = new GameObject("assets/Clyde.bmp",182,82);
   player2 = new GameObject("assets/Pinky.bmp",602,502);
@@ -87,6 +89,9 @@ void processInput(SDL_Event event){
 		case SDLK_a:
 			player2->move = MOVE_LEFT;
 			break;
+		case SDLK_ESCAPE:
+			Game::isRunning = false;
+			break;
 		default:
 			break;
 	}
@@ -105,22 +110,22 @@ void Game::handleEvents(){
   	}
   	return ;
   }
-  
+
   switch (event.type) {
 	case SDL_QUIT:
 	  isRunning = false;
 	  break;
 	case SDL_KEYUP:
 	  processInput(event);
-	  break; 
+	  break;
 	default:
 	  break;
   }
-  
+
   if(timer->timeRemaining() <= 0){
     gameOver=true;
     result = new ResultComponent(map->MazeMap);
-  }  
+  }
 }
 
 void reversePlayerMove(GameObject* player){
@@ -150,7 +155,7 @@ void resolvePlayerCollision(GameObject* player1,GameObject* player2){
 	if(player2->ypos >= player1->ypos+25){
 		return ;
 	}
-	
+
 	reversePlayerMove(player1);
 	reversePlayerMove(player2);
 }
