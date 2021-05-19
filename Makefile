@@ -1,8 +1,8 @@
 SDL = `pkg-config --cflags --libs sdl2`
 IMG = -lSDL2_image
 TTF = -lSDL2_ttf
-builddeps = Maze.o Vector2D.o TextureManager.o Map.o GameObject.o TimerComponent.o Game.o main.o
-buildobjs = bin/Maze.o bin/Vector2D.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/TimerComponent.o bin/Game.o bin/main.o
+builddeps = Maze.o Vector2D.o TextureManager.o Map.o GameObject.o TimerComponent.o ResultComponent.o Game.o main.o
+buildobjs = bin/Maze.o bin/Vector2D.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/TimerComponent.o bin/ResultComponent.o bin/Game.o bin/main.o
 all: $(builddeps)
 	g++ -o run $(buildobjs) $(SDL) $(IMG) $(TTF)
 
@@ -27,6 +27,9 @@ GameObject.o: src/GameObject.cpp
 TimerComponent.o: src/TimerComponent.cpp
 	g++ -c src/TimerComponent.cpp $(SDL) $(IMG) $(TTF)
 	mv TimerComponent.o bin/TimerComponent.o
+ResultComponent.o: src/ResultComponent.cpp
+	g++ -c src/ResultComponent.cpp $(SDL) $(IMG) $(TTF)
+	mv ResultComponent.o bin/ResultComponent.o
 main.o: src/main.cpp
 	g++ -c src/main.cpp $(SDL) $(IMG) $(TTF)
 	mv main.o bin/main.o

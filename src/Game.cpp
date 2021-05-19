@@ -5,6 +5,7 @@
 #include "../include/Vector2D.h"
 #include "../include/GameObject.h"
 #include "../include/TimerComponent.h"
+#include "../include/ResultComponent.h"
 #include "SDL_ttf.h"
 
 using namespace std;
@@ -14,10 +15,13 @@ SDL_Renderer* Game::renderer = nullptr;
 Map* map;
 GameObject* player1;
 GameObject* player2;
-
 TimerComponent* timer;
+ResultComponent* result;
 
-Game::Game(){}
+Game::Game(){
+	isRunning = false;
+	gameOver = true;
+}
 Game::~Game(){}
 
 void Game::init(const char *title, int xpos, int ypos, int width, int height, bool fullscreen){
@@ -39,12 +43,15 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
       cout<<"Renderer created"<<endl;
     }
     if(TTF_Init() == -1) {
+    	gameOver = true;
     	isRunning = false;
     	cout<<"SDL_ttf error\n";
     }
     isRunning = true;
+    gameOver = false;
   }
   else{
+  	gameOver = true;
     isRunning = false;
   }
   
@@ -88,6 +95,17 @@ void processInput(SDL_Event event){
 void Game::handleEvents(){
   SDL_Event event;
   SDL_PollEvent(&event);
+  if(gameOver){
+  	switch(event.type){
+  		case SDL_QUIT:
+  			isRunning = false;
+  			break;
+  		default:
+  			break;
+  	}
+  	return ;
+  }
+  
   switch (event.type) {
 	case SDL_QUIT:
 	  isRunning = false;
@@ -100,7 +118,8 @@ void Game::handleEvents(){
   }
   
   if(timer->timeRemaining() <= 0){
-    isRunning = false;
+    gameOver=true;
+    result = new ResultComponent(map->MazeMap);
   }  
 }
 
@@ -137,6 +156,9 @@ void resolvePlayerCollision(GameObject* player1,GameObject* player2){
 }
 
 void Game::update(){
+  if(gameOver){
+  	return ;
+  }
   player1->Update(map->MazeMap,1);
   player2->Update(map->MazeMap,2);
   resolvePlayerCollision(player1,player2);
@@ -145,6 +167,11 @@ void Game::update(){
 void Game::render(){
   SDL_SetRenderDrawColor(renderer, 238, 232, 125, 255);
   SDL_RenderClear(renderer);
+  if(gameOver){
+  	result->Render();
+  	SDL_RenderPresent(renderer);
+  	return ;
+  }
   timer->Render();
   map->drawMaze();
   player1->Render();

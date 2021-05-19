@@ -19,10 +19,12 @@ public:
   void clean();
 
   bool running() {return isRunning;}
+  bool isgameOver() {return gameOver;}
 
   static SDL_Renderer *renderer;
 private:
-  int cnt = 0;
-  bool isRunning = false;
+  //int cnt = 0;
+  bool isRunning;
+  bool gameOver;
   SDL_Window *window;
 };
