@@ -2,8 +2,8 @@ SDL = `pkg-config --cflags --libs sdl2`
 IMG = -lSDL2_image
 AUD = -lSDL2_mixer
 TTF = -lSDL2_ttf
-builddeps = Maze.o Vector2D.o TextureManager.o Map.o GameObject.o TimerComponent.o ResultComponent.o Game.o main.o
-buildobjs = bin/Maze.o bin/Vector2D.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/TimerComponent.o bin/ResultComponent.o bin/Game.o bin/main.o
+builddeps = Maze.o Vector2D.o TextureManager.o Map.o GameObject.o PowerPillComponent.o TimerComponent.o ResultComponent.o Game.o main.o
+buildobjs = bin/Maze.o bin/Vector2D.o bin/TextureManager.o bin/Map.o bin/GameObject.o bin/PowerPillComponent.o bin/TimerComponent.o bin/ResultComponent.o bin/Game.o bin/main.o
 all: $(builddeps)
 	g++ -o run $(buildobjs) $(SDL) $(IMG) $(TTF) $(AUD)
 
@@ -25,6 +25,9 @@ Vector2D.o: src/Vector2D.cpp
 GameObject.o: src/GameObject.cpp
 	g++ -c src/GameObject.cpp $(SDL) $(IMG) $(TTF) $(AUD)
 	mv GameObject.o bin/GameObject.o
+PowerPillComponent.o: src/PowerPillComponent.cpp
+	g++ -c src/PowerPillComponent.cpp $(SDL) $(IMG) $(TTF)
+	mv PowerPillComponent.o bin/PowerPillComponent.o
 TimerComponent.o: src/TimerComponent.cpp
 	g++ -c src/TimerComponent.cpp $(SDL) $(IMG) $(TTF) $(AUD)
 	mv TimerComponent.o bin/TimerComponent.o

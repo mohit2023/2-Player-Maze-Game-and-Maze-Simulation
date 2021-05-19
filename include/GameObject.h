@@ -20,6 +20,7 @@ public:
   int move=NO_CHANGE;
   int xpos;
   int ypos;
+  int power;
   
 private:
   SDL_Texture* objTexture;

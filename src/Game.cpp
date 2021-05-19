@@ -6,6 +6,7 @@
 #include "../include/GameObject.h"
 #include "../include/TimerComponent.h"
 #include "../include/ResultComponent.h"
+#include "../include/PowerPillComponent.h"
 #include "SDL_ttf.h"
 
 using namespace std;
@@ -17,6 +18,7 @@ GameObject* player1;
 GameObject* player2;
 TimerComponent* timer;
 ResultComponent* result;
+PowerPillComponent* powerPill;
 
 bool Game::isRunning = false;
 
@@ -69,6 +71,7 @@ void Game::init(const char *title, int xpos, int ypos, int width, int height, bo
   map = new Map();
   player1 = new GameObject("assets/Clyde.bmp",182,82);
   player2 = new GameObject("assets/Pinky.bmp",602,502);
+  powerPill = new PowerPillComponent("assets/Cherry.bmp");
   timer = new TimerComponent(SDL_GetTicks());
 }
 
@@ -180,6 +183,9 @@ void Game::update(){
   player1->Update(map->MazeMap,1);
   player2->Update(map->MazeMap,2);
   resolvePlayerCollision(player1,player2);
+  powerPill->Usage(player1);
+  powerPill->Usage(player2);
+  powerPill->Update(map->MazeMap);
   timer->Update(SDL_GetTicks());
 }
 void Game::render(){
@@ -194,6 +200,7 @@ void Game::render(){
   map->drawMaze();
   player1->Render();
   player2->Render();
+  powerPill->Render();
   SDL_RenderPresent(renderer);
 }
 void Game::clean(){
