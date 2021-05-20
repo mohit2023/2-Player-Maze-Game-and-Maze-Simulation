@@ -117,6 +117,11 @@ void Game::handleEvents(){
   		case SDL_QUIT:
   			isRunning = false;
   			break;
+  		case SDL_KEYUP:
+  			if(event.key.keysym.sym == SDLK_ESCAPE){
+  				Game::isRunning = false;
+  			}
+  			break;
   		default:
   			break;
   	}
